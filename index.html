@@ -5,87 +5,74 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Car Engine Simulation</title>
     <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #ffeb3b; /* Bright yellow background */
-            font-family: 'Arial', sans-serif;
-            color: #3f51b5; /* Deep indigo text color */
-            animation: backgroundAnimation 10s infinite alternate;
-        }
-
-        @keyframes backgroundAnimation {
-            0% { background-color: #ffeb3b; }
-            50% { background-color: #ff4081; }
-            100% { background-color: #4caf50; }
-        }
-
-        .engine {
-            width: 300px;
-            height: auto;
-            border: 10px solid #3f51b5;
-            border-radius: 16px;
-            padding: 20px;
-            text-align: center;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s;
-        }
-
-        .engine:hover {
-            transform: scale(1.05);
-        }
-
-        .engine h1 {
-            font-size: 2em;
-            margin-bottom: 10px;
-            animation: bounce 1s infinite;
-        }
-
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-            40% { transform: translateY(-15px); }
-            60% { transform: translateY(-10px); }
-        }
-
-        .controls {
-            margin-top: 20px;
-        }
-
-        .button {
-            padding: 10px 20px;
-            background-color: #3f51b5;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        .button:hover {
-            background-color: #5c6bc0;
-        }
+        /* Basic styles for the simulation controls */
+        body { font-family: Arial, sans-serif; }
+        .control { margin: 20px; }
+        .gauge { width: 300px; }
+        .vibration { transition: transform 0.1s; }
     </style>
 </head>
 <body>
-    <div class="engine">
-        <h1>Car Engine Simulation</h1>
-        <p>Fuel Level: <span id="fuelLevel">100%</span></p>
-        <div class="controls">
-            <button class="button" onclick="startEngine()">Start Engine</button>
-            <button class="button" onclick="stopEngine()">Stop Engine</button>
+    <h1>Car Engine Simulation</h1>
+    <div class="control">
+        <button id="startButton">Start</button>
+        <button id="stopButton">Stop</button>
+        <br><br>
+        <label for="rpmSlider">RPM:</label>
+        <input type="range" id="rpmSlider" min="0" max="6000" value="0">
+        <span id="rpmValue">0 RPM</span>
+        <br><br>
+        <label for="throttleControl">Throttle:</label>
+        <input type="range" id="throttleControl" min="0" max="100" value="0">
+        <span id="throttleValue">0%</span>
+        <br><br>
+        <div class="gauge">
+            <label>Fuel Gauge:</label>
+            <progress id="fuelGauge" value="100" max="100"></progress><span id="fuelValue">100%</span>
+        </div>
+        <div>
+            <label>Temperature:</label>
+            <span id="temperatureDisplay">0°C</span>
+        </div>
+        <div>
+            <h3>Engine Status: <span id="engineStatus">Stopped</span></h3>
         </div>
     </div>
 
     <script>
-        function startEngine() {
-            document.getElementById("fuelLevel").innerText = "Running...";
-        }
+        let isRunning = false;
+        const rpmSlider = document.getElementById('rpmSlider');
+        const rpmValue = document.getElementById('rpmValue');
+        const throttleControl = document.getElementById('throttleControl');
+        const throttleValue = document.getElementById('throttleValue');
+        const fuelGauge = document.getElementById('fuelGauge');
+        const fuelValue = document.getElementById('fuelValue');
+        const temperatureDisplay = document.getElementById('temperatureDisplay');
+        const engineStatus = document.getElementById('engineStatus');
+        const startButton = document.getElementById('startButton');
+        const stopButton = document.getElementById('stopButton');
 
-        function stopEngine() {
-            document.getElementById("fuelLevel").innerText = "Stopped";
-        }
+        startButton.addEventListener('click', () => {
+            isRunning = true;
+            engineStatus.textContent = "Running";
+            // Start engine logic, e.g., animation
+        });
+
+        stopButton.addEventListener('click', () => {
+            isRunning = false;
+            engineStatus.textContent = "Stopped";
+            // Stop engine logic, e.g., reset
+        });
+
+        rpmSlider.addEventListener('input', () => {
+            rpmValue.textContent = `${rpmSlider.value} RPM`;
+            // Update engine RPM logic
+        });
+
+        throttleControl.addEventListener('input', () => {
+            throttleValue.textContent = `${throttleControl.value}%`;
+            // Update throttle logic
+        });
     </script>
 </body>
 </html>
